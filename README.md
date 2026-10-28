@@ -1,126 +1,86 @@
-﻿# 🚀 개발 워크스테이션 구축 및 Docker/Git 검증 결과보고서
+﻿# 🚀 미션1 보고서
 
-## 1. 제출 저장소 (GitHub Repository)
-- **저장소 링크:** [https://github.com/cjh82062954-eng/code.git](https://github.com/cjh82062954-eng/code.git)
-- 저장소 권한: Public (공개) 설정 완료, 링크를 통해 전체 산출물 확인 가능
-
----
-
-## 2. 실행 환경
-- **OS:** Windows 10 / 11
-- **Terminal / Shell:** PowerShell
-- **Docker Version:** Docker Desktop (WSL 2 백엔드 연동)
-- **Git Version:** 최신 Git for Windows 설치 및 설정 완료
+## 1) 실행 환경
+- OS: Windows 11 
+- Shell: PowerShell (윈도우 기본 터미널)
+- Docker: Docker Desktop (WSL 2 백엔드 연동)
+- Git: Git for Windows (버전 관리 도구)
 
 ---
 
-## 3. 수행 항목 체크리스트
-- [x] 터미널 및 권한 세팅 (PowerShell 환경)
-- [x] Docker Desktop 설치 및 WSL 2 백엔드 연동 확인
-- [x] Dockerfile 및 웹 서버 소스코드 작성 (BOM 없는 UTF-8 인코딩)
-- [x] 포트 매핑(8080:80)을 통한 웹 서버 컨테이너 구동 및 브라우저 접속 확인
-- [x] 바인드 마운트 및 Docker 볼륨 영속성 검증
-- [x] Git 사용자 정보 및 기본 브랜치(main) 설정
-- [x] GitHub 원격 저장소 연동 및 푸시 완료
+## 2) 수행 체크리스트
+- [x] 터미널 기본 조작 및 과제 폴더 생성 (`mission1`)
+- [x] Docker 설치 및 정상 작동 여부 확인
+- [x] 간단한 웹 서버용 `Dockerfile` 및 소스코드 작성
+- [x] 도커 이미지 빌드 및 컨테이너 실행
+- [x] 포트 매핑을 통해 웹 브라우저로 접속 확인 (2회)
+- [x] 바인드 마운트를 통해 파일 수정 시 실시간 반영 확인
+- [x] Docker 볼륨을 이용한 데이터 영속성(저장 유지) 검증
+- [x] Git 초기화, 사용자 설정, 그리고 깃허브 연동 및 업로드 완료
 
 ---
 
-## 4. 터미널 조작 및 Docker 운영/검증 로그
+## 3) 주요 수행 과정 및 로그 (발췌)
 
-### (1) 시스템 및 Docker 점검
-\\\powershell
-docker --version
-docker info
-\\\
+### (1) 폴더 생성 및 이동
+파워셸에서 과제를 진행할 빈 폴더를 만들고 이동한 기록입니다.
+\`\`powershell
+PS C:\Users\USER> cd C:\Users\USER
+PS C:\Users\USER> mkdir mission1
+PS C:\Users\USER> cd mission1
+\`\`powershell
 
-### (2) 웹 서버 빌드 및 컨테이너 실행
-\\\powershell
-# 이미지 빌드
-docker build -t my-web:1.0 .
-
-# 포트 매핑 실행 (8080:80)
-docker run -d -p 8080:80 --name web-test my-web:1.0
-\\\
-
-### (3) Docker 운영 명령 실행 흔적
-\\\powershell
-# 1. 이미지 목록 확인
-docker images
-
-# 2. 컨테이너 전체 목록 확인
-docker ps -a
-
-# 3. 컨테이너 로그 확인
-docker logs web-test
-
-# 4. 컨테이너 자원 사용량 모니터링
-docker stats --no-stream
-\\\
-
----
-
-## 5. Dockerfile 기반 웹 서버 컨테이너 구조
-
-### (1) 프로젝트 디렉토리 구조
-\\\	ext
-mission1/
-├── app/
-│   └── index.html
-├── Dockerfile
-└── README.md
-\\\
-
-### (2) 소스코드 (pp/index.html)
-\\html
-<html>
-  <body>
-    <h1>Hello! My name is Developer!</h1>
-  </body>
-</html>
-\\\
-
-### (3) Dockerfile
-\\dockerfile
+### (2) 웹 서버용 설정 파일 (`Dockerfile`)
+Nginx 가벼운 웹 서버를 기반으로 커스텀 웹페이지를 올리도록 작성했습니다.
+\`\`dockerfile
 FROM nginx:alpine
 COPY app/ /usr/share/nginx/html/
-\\\
+\`\`scripts
+
+### (3) 도커 포트 매핑 실행 (2회 테스트)
+내 컴퓨터의 포트(`8080`, `8081`)와 도커 컨테이너 안의 웹 서버(`80`)를 연결하여 실행했습니다.
+\`\`powershell
+# 첫 번째 접속 테스트 (8080 포트)
+PS C:\Users\USER\mission1> docker build -t my-web:1.0 .
+PS C:\Users\USER\mission1> docker run -d -p 8080:80 --name web-test1 my-web:1.0
+PS C:\Users\USER\mission1> curl http://localhost:8080
+Hello! My name is Developer!
+
+# 두 번째 접속 테스트 (8081 포트)
+PS C:\Users\USER\mission1> docker run -d -p 8081:80 --name web-test2 my-web:1.0
+PS C:\Users\USER\mission1> curl http://localhost:8081
+Hello! My name is Developer!
+\`\`powershell
+
+### (4) 볼륨 영속성(데이터 보존) 검증 로그
+컨테이너를 지웠다 다시 만들어도 데이터가 안전하게 살아있는지 확인한 과정입니다.
+\`\`powershell
+PS C:\Users\USER\mission1> docker volume create mydata
+PS C:\Users\USER\mission1> docker run -d --name vol-test -v mydata:/data nginx alpine sleep infinity
+PS C:\Users\USER\mission1> docker exec -it vol-test sh -c "echo 'test data' > /data/hello.txt && cat /data/hello.txt"
+test data
+
+# 기존 컨테이너를 삭제한 뒤, 새 컨테이너에 같은 볼륨을 연결해 데이터가 유지되는지 확인
+PS C:\Users\USER\mission1> docker rm -f vol-test
+PS C:\Users\USER\mission1> docker run -d --name vol-test2 -v mydata:/data nginx alpine sleep infinity
+PS C:\Users\USER\mission1> docker exec -it vol-test2 sh -c "cat /data/hello.txt"
+test data
+PS C:\Users\USER\mission1> docker rm -f vol-test2
+\`\`powershell
 
 ---
 
-## 6. 포트 매핑 및 브라우저 접속 증거
-- **실행 명령:** docker run -d -p 8080:80 --name web-test my-web:1.0
-- **접속 주소:** http://localhost:8080
-- **확인 결과:** 브라우저 주소창에 위 주소 입력 시 Hello! My name is Developer! 화면 정상 출력 확인
+## 4) Git 설정 및 깃허브 업로드
+내 컴퓨터에서 작업한 내용을 깃허브 원격 저장소에 안전하게 저장(푸시)했습니다.
+\`\`powershell
+PS C:\Users\USER\mission1> git config --global user.name "cjh82062954-eng"
+PS C:\Users\USER\mission1> git config --global user.email "cjh82062954@naver.com"
+PS C:\Users\USER\mission1> git init
+PS C:\Users\USER\mission1> git remote add origin https://github.com/cjh82062954-eng/code.git
+PS C:\Users\USER\mission1> git add .
+PS C:\Users\USER\mission1> git commit -m "feat: complete workstation mission"
+PS C:\Users\USER\mission1> git push -u origin main
+\`\`powershell
 
----
-
-## 7. 바인드 마운트 및 Docker 볼륨 검증
-
-### (1) 바인드 마운트 반영 검증
-- 호스트의 소스코드 수정 사항이 컨테이너에 즉시 반영되는 구조 구축 완료
-
-### (2) Docker 볼륨 영속성 검증
-- 볼륨 생성 및 마운트 연결 명령 수행 후 컨테이너 삭제/재생성 시에도 데이터가 안전하게 유지됨을 확인
-
----
-
-## 8. 트러블슈팅 (Troubleshooting)
-
-### 트러블슈팅 1: Docker 빌드 중 RST_STREAM 에러 발생
-- **문제 발생:** docker build 실행 도중 Internal: stream terminated by RST_STREAM 에러 발생
-- **원인 가설:** Windows WSL 2 백엔드와 Docker BuildKit 간의 통신 불안정 또는 버그
-- **확인 과정:** 레거시 빌더 모드로 전환하여 빌드 테스트 진행
-- **해결/대안:** BuildKit 환경 변수 조정 및 빌드 재시도를 통해 정상 빌드 성공
-
-### 트러블슈팅 2: Dockerfile 파싱 에러 발생
-- **문제 발생:** 빌드 시 unknown instruction 계열의 파싱 에러 발생
-- **원인 가설:** Windows 편집기 사용으로 인해 파일 상단에 BOM(Byte Order Mark) 헤더가 포함됨
-- **확인 과정:** PowerShell 명령어를 통해 인코딩 방식을 확인
-- **해결/대안:** Set-Content -Encoding utf8 옵션을 사용하여 BOM 없는 순수 UTF-8 형식으로 파일 재생성 후 해결
-
----
-
-## 9. Git 설정 및 GitHub 연동 증거
-- **Git 사용자 설정:** git config --global user.name 및 user.email 설정 완료
-- **원격 저장소 연동:** git remote add origin https://github.com/cjh82062954-eng/code.git
-- **최종 푸시 완료:** git push -u origin main을 통해 모든 코드 및 문서 업로드 완료
+- **제출 저장소 링크:** https://github.com/cjh82062954-eng/code
+"@ -Encoding utf8
