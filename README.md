@@ -17,20 +17,26 @@
 
   ## 3) 수행 로그(발췌)
   -터미널 기본 조작 및 폴더 구성
-   #디렉토리 생성 및 이
+   #디렉토리 생성 및 이동
    root@DESKTOP-V60E01R:~# mkdir -p ~/mission1/app
    root@DESKTOP-V60E01R:~# cd ~/mission1
-   #파일 생성 및 내용 확
+   #파일 생성 및 내용 확인
    root@DESKTOP-V60E01R:~/mission1# echo "Hello Codyssey Workstation" > app/index.html
+   #파일의 내용을 펼쳐서 보여주는 명령어
    root@DESKTOP-V60E01R:~/mission1# cat app/index.html
    Hello Codyssey Workstation
+   #절대 경로와 상대 경로
+   절대 경로(root/mission1/app) : 내 위치가 어디든 싱관없이, 컴퓨터 맨 꼭대기부터 시작해서 목적지까지 찾아가는 '전체 주소'
+   상대 경로(app/index.html) : 지금 내가 서 있는 위치를 기준(~mission1)으로 찾아가는 약도 위 코드 cd로 폴더에 들어간 뒤
+                              app/을 부르는 것이 상대 경로
 
   -권한 변경 실습
    #권한 실습(파일 및 디렉토리)
    root@DESKTOP-V60E01R:~/mission1# mkdir test_dir
    root@DESKTOP-V60E01R:~/mission1# touch test_file.txt
    #권한 변경 전 확인
-   root@DESKTOP-V60E01R:~/mission1# ls -la
+   root@DESKTOP-V60E01R:~/mission1#
+   ls -la
    total 16
    drwxr-xr-x 4 root root 4096 Oct 29 22:21 .
    drwx------ 6 root root 4096 Oct 29 22:21 ..
@@ -41,7 +47,8 @@
    root@DESKTOP-V60E01R:~/mission1# chmod 755 test_dir
    root@DESKTOP-V60E01R:~/mission1# chmod 644 test_file.txt
    #권한 변경 후 확인 (증거로 남김)
-   root@DESKTOP-V60E01R:~/mission1# ls -la
+   root@DESKTOP-V60E01R:~/mission1#
+   ls -la
    total 16
    drwxr-xr-x 4 root root 4096 Oct 29 22:21 .
    drwx------ 6 root root 4096 Oct 29 22:21 ..
@@ -60,7 +67,7 @@
   This message shows that your installation appears to be working correctly.
 
   4.Dockerfile 빌드 및 실행 (Nginx 커스텀 웹 서버)
-  #다커 파일 내
+  #다커 파일 내용
   root@DESKTOP-V60E01R:~/mission1# cat << 'EOF' > Dockerfile
   > FROM nginx:alpine
   > LABEL org.opencontainers.image.title="my-custom-nginx"
