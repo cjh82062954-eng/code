@@ -122,11 +122,16 @@
  vol-test-container
 
  #새로운 컨테이너에 동일 볼륨 연결 후 데이터 생존 확인
- root@DESKTOP-V60E01R:~/mission1# docker run -d --name vol-test-container -v my_work_vol:/data ubuntu sleep infinity
- 3dbef3770a7b5a6db37e578713537966f7f93c94c7fc0304c927e65124ab9815
- root@DESKTOP-V60E01R:~/mission1# docker exec -it vol-test-container bash -c "echo 'Persistent Data Test' > /data/test.txt"
- root@DESKTOP-V60E01R:~/mission1# docker exec -it vol-test-container cat /data/test.txt
+ root@DESKTOP-V60E01R:~/mission1# docker run -d --name vol-test-container-2 -v my_work_vol:/data ubuntu sleep infinity
+ 9e66e37291579fd04e3977dbbbabf0686a3a0a0b3a2e097fb1107385e4e9bfe3
+ root@DESKTOP-V60E01R:~/mission1# docker exec -it vol-test-container-2 cat /data/test.txt
  Persistent Data Test
+ root@DESKTOP-V60E01R:~/mission1# docker rm -f vol-test-container-2
+ vol-test-container-2
+ root@DESKTOP-V60E01R:~/mission1# docker volume rm my_work_vol
+ my_work_vol
+
+ 
 
  root@DESKTOP-V60E01R:~/mission1# docker rm -f vol-test-container-2
  vol-test-container-2
