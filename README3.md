@@ -8,8 +8,7 @@
 
 3. 실행 방법 (`Execution`)
  터미널에서 프로젝트 루트 디렉토리로 이동한 뒤 아래 명령어를 입력합니다.
- ```bash
- python main.py
+ root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/mission2# python3 main.py
 
 4.기능 목록
  1.퀴즈 풀기: 등록된 퀴즈를 풀고 실시간으로 정답 여부 및 점수를 집계
