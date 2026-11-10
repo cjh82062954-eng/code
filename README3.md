@@ -101,6 +101,7 @@
              "best_score": self.best_score
          }
          with open(self.filename, "w", encoding="utf-8") as f:
+             -파이썬의 데이터(딕셔너리, 리스트 등)를 JSON 문자열로 변환하여, 위에서 연 파일 객체(f)에 곧바로 써주는(저장해 주는) 함수
              json.dump(data, f, ensure_ascii=False, indent=4)
 
      def run(self):
