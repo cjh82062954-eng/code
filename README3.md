@@ -317,6 +317,7 @@ root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/clone_test# git add README.md
 root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/clone_test# git commit -m "Chore: clone 디렉토리에서 README 수정"
 [main b2cbba8] Chore: clone 디렉토리에서 README 수정
  1 file changed, 1 insertion(+)
+ -내가 수정한 내용을 GitHub 원격 저장소(origin)의 main 브랜치로 업로드
 root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/clone_test# git push origin main
 Counting objects: 3, done.
 Delta compression using up to 12 threads.
@@ -329,6 +330,7 @@ To https://github.com/cjh82062954-eng/code
 
 # 3. 기존 작업 디렉토리로 돌아와서 Pull 실습
 root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/clone_test# cd /mnt/c/Users/USER/Desktop/mission2
+-방금 GitHub에 올라간 최신 변경 사항(다른 곳에서 수정되어 올라온 내용)을 내 로컬 컴퓨터로 끌어오는 명령어
 root@DESKTOP-V60E01R:/mnt/c/Users/USER/Desktop/mission2# git pull origin main
 remote: Enumerating objects: 5, done.
 remote: Counting objects: 100% (5/5), done.
